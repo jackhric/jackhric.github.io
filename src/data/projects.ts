@@ -58,6 +58,7 @@ export const projects: Project[] = [
     logoShape: "mark",
     accent: "#F97316",
     repo: "https://github.com/jackhric/boilerRomM",
+    site: "https://jackhric.github.io/boilerRomM/",
     stack: ["TypeScript", "Python"],
     license: "AGPL-3.0",
   },
