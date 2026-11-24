@@ -35,12 +35,7 @@ import { GITHUB_URL, PORTFOLIO_URL } from "@/data/site";
       </a>
 
       <section class="mt-8 md:mt-10 border-t border-white/10 pt-4">
-        <div class="flex items-baseline justify-between gap-4 mb-3">
-          <h1 class="text-lg text-white/60"><span class="sr-only">Jack Hric · Open source </span>Projects</h1>
-          <span class="font-mono text-xs tracking-[0.25em] text-white/30 tabular-nums">
-            {String(projects.length).padStart(2, "0")}
-          </span>
-        </div>
+        <h1 class="text-lg text-white/60 mb-3"><span class="sr-only">Jack Hric · Open source </span>Projects</h1>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {projects.map((project, i) => <ProjectCard project={project} delay={60 + i * 40} />)}
         </div>
