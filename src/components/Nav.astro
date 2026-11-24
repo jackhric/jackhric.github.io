@@ -1,0 +1,36 @@
+---
+import Icon from "./Icon.astro";
+import Wordmark from "./Wordmark.astro";
+import { GITHUB_URL, PORTFOLIO_URL } from "@/data/site";
+---
+
+<nav
+  class="fixed top-0 inset-x-0 z-50 flex h-[var(--nav-h)] items-center justify-between px-3 sm:px-4 bg-black/95 border-b-2 border-white/20 text-sm text-white/60"
+>
+  <a href="/" class="enter group flex items-center gap-2 outline-none">
+    <Wordmark class="text-[1.1rem] text-white group-hover:text-brutal-accent group-focus-visible:text-brutal-accent" />
+    <span aria-hidden="true" class="text-white/25">/</span>
+    <span class="text-white/50">Open source</span>
+  </a>
+  <div class="enter flex items-center gap-3 sm:gap-5" style="--d: 40ms">
+    <a
+      href={GITHUB_URL}
+      target="_blank"
+      rel="noopener noreferrer me"
+      data-umami-event="outbound-github"
+      class="flex items-center gap-2 hover:text-brutal-accent focus-visible:text-brutal-accent outline-none"
+    >
+      <Icon name="github" class="size-4" />
+      <span class="hidden sm:inline">GitHub</span>
+    </a>
+    <a
+      href={PORTFOLIO_URL}
+      data-umami-event="outbound-portfolio"
+      data-umami-event-from="nav"
+      class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 border-2 border-brutal-accent bg-brutal-accent font-medium text-black hover:bg-transparent hover:text-brutal-accent focus-visible:bg-transparent focus-visible:text-brutal-accent outline-none"
+    >
+      Portfolio
+      <Icon name="arrow" class="size-3" />
+    </a>
+  </div>
+</nav>

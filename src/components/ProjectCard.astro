@@ -1,0 +1,83 @@
+---
+import Icon from "./Icon.astro";
+import type { Project } from "@/data/projects";
+
+interface Props {
+  project: Project;
+  delay: number;
+}
+
+const { project, delay } = Astro.props;
+const primary = project.site ?? project.repo;
+const linkCell =
+  "relative z-10 flex flex-1 items-center justify-center gap-1.5 py-2.5 outline-none hover:bg-brutal-accent hover:text-black focus-visible:bg-brutal-accent focus-visible:text-black";
+---
+
+<article
+  data-glow
+  class="enter group [--ring-size:12rem] flex flex-col border border-white/20 text-white/50 hover:border-brutal-accent/30 hover:text-brutal-accent data-glow-on:border-brutal-accent/30 data-glow-on:text-brutal-accent has-[:focus-visible]:border-brutal-accent"
+  style={`--d: ${delay}ms; --brutal-accent: ${project.accent}; --logo-fill: ${project.fill ?? project.accent}`}
+>
+  <span aria-hidden="true" data-glow-ring></span>
+
+  <a
+    href={primary}
+    data-umami-event={project.site ? "project-site" : "project-repo"}
+    data-umami-event-project={project.id}
+    data-umami-event-from="card"
+    class="flex flex-1 flex-col items-center gap-5 p-5 pt-8 outline-none"
+  >
+    <span class="flex h-20 w-full items-center justify-center">
+      <span
+        role="img"
+        aria-label={`${project.name} logo`}
+        class:list={[
+          "logo-mask block max-w-full",
+          project.logoShape === "wordmark" ? "h-14 w-44" : "h-20 w-24",
+        ]}
+        style={`--logo: url(${project.logo})`}></span>
+    </span>
+
+    <span class="flex flex-col items-center gap-1 text-center">
+      <span class="font-mono text-sm tracking-[0.2em] uppercase leading-tight">{project.name}</span>
+      <span class="font-mono text-[11px] tracking-[0.15em] uppercase text-brutal-accent/70">{project.kind}</span>
+    </span>
+
+    <span class="text-sm leading-relaxed text-white/60 text-center text-pretty">{project.description}</span>
+
+    <span class="mt-auto flex flex-wrap justify-center gap-x-3 gap-y-1 font-mono text-[10px] tracking-[0.2em] uppercase text-white/30">
+      {project.stack.map((s) => <span>{s}</span>)}
+      <span class="text-white/20">·</span>
+      <span>{project.license}</span>
+    </span>
+  </a>
+
+  <div class="flex border-t border-white/10 font-mono text-[11px] tracking-[0.2em] uppercase text-white/70 divide-x divide-white/10">
+    {
+      project.site ? (
+        <a
+          href={project.site}
+          data-umami-event="project-site"
+          data-umami-event-project={project.id}
+          data-umami-event-from="button"
+          class={linkCell}
+        >
+          Site <Icon name="arrow" class="size-3" />
+        </a>
+      ) : (
+        <span class="flex flex-1 items-center justify-center py-2.5 text-white/25">Site soon</span>
+      )
+    }
+    <a
+      href={project.repo}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-umami-event="project-repo"
+      data-umami-event-project={project.id}
+      data-umami-event-from="button"
+      class={linkCell}
+    >
+      <Icon name="github" class="size-3.5" /> Source
+    </a>
+  </div>
+</article>

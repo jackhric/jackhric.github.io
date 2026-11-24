@@ -1,0 +1,22 @@
+---
+interface Props {
+  text?: string;
+  class?: string;
+}
+
+const { text = "Jack Hric", class: className = "" } = Astro.props;
+---
+
+<span class={`wordmark ${className}`}>{text}</span>
+
+<style>
+  /* Inter Heavy Italic, the face of the jh mark; the font file is pre-instanced, so it is set upright here. */
+  .wordmark {
+    font-family: "Inter Wordmark", "Inter Fallback", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    font-synthesis: none;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+</style>

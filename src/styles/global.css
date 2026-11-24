@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* Tokens and surfaces follow jackhric.com (minus the animated background): black ground, hairline white borders,
+   tracked mono labels and one blue accent. */
+:root {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --ring: oklch(0.556 0 0);
+  --brutal-accent: oklch(0.72 0.22 259.82);
+  --nav-h: 2.75rem;
+  --grain-tile: url("../assets/textures/noise.png");
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", "Inter Fallback", sans-serif;
+  --color-ring: var(--ring);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-brutal-accent: var(--brutal-accent);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-black text-foreground;
+  }
+  ::selection {
+    background-color: var(--brutal-accent);
+    color: black;
+  }
+}
+
+/* Film grain painted into a surface, under its content. `grain-<n>` is strength in percent. */
+@utility grain {
+  isolation: isolate;
+  :where(&) {
+    position: relative;
+    --grain-opacity: 10%;
+    --grain-size: 64px;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--grain-tile) 0 0 / var(--grain-size);
+    opacity: var(--grain-opacity);
+    pointer-events: none;
+  }
+}
+
+@utility grain-* {
+  --grain-opacity: calc(--value(integer) * 1%);
+}
+
+@utility grain-fine {
+  --grain-size: 32px;
+}
+
+@utility grain-finer {
+  --grain-size: 20px;
+}
+
+/* A logo file used as a silhouette, painted with --logo-fill (a colour or gradient), else the text colour. */
+@utility logo-mask {
+  background: var(--logo-fill, currentColor);
+  mask: var(--logo) center / contain no-repeat;
+}
+
+/* Accent light on a surface's border that follows the pointer; src/lib/pointer-glow.ts drives it. */
+@layer components {
+  [data-glow] {
+    position: relative;
+  }
+
+  [data-glow-ring] {
+    position: absolute;
+    inset: -1px;
+    padding: 1px;
+    background: radial-gradient(
+      circle var(--ring-size, 8rem) at var(--gx, 50%) var(--gy, 50%),
+      var(--brutal-accent),
+      transparent
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    opacity: 0;
+    transition: opacity 500ms ease-out;
+    pointer-events: none;
+  }
+
+  [data-glow-on] > [data-glow-ring] {
+    opacity: 1;
+    transition-duration: 120ms;
+  }
+}
+
+.enter {
+  animation: rise 300ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter,
+  .animate-pulse {
+    animation: none;
+  }
+}

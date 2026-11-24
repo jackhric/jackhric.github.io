@@ -1,0 +1,23 @@
+---
+import { SITE_HOST, STATISTICS } from "@/data/site";
+
+const { origin, websiteId } = STATISTICS;
+---
+
+<!--
+  Umami statistics and session recording. Production builds only, and `data-domains` keeps localhost and
+  preview hosts out of the numbers. The recorder records every visit (sample rate 1) and masks form input.
+-->
+{import.meta.env.PROD && (
+  <>
+    <script defer src={`${origin}/getinfo.js`} data-website-id={websiteId} data-domains={SITE_HOST}></script>
+    <script
+      defer
+      src={`${origin}/recorder.js`}
+      data-website-id={websiteId}
+      data-sample-rate="1"
+      data-mask-level="moderate"
+      data-max-duration="300000"
+    ></script>
+  </>
+)}

@@ -1,0 +1,19 @@
+---
+import lava from "@/assets/lava.webp?inline";
+---
+
+<!--
+  A small blurred still of the jackhric.com background, scaled up with the same grain on top. Fixed, so it does
+  not scroll.
+-->
+<div aria-hidden="true" class="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-black">
+  <img
+    src={lava}
+    alt=""
+    width="64"
+    height="36"
+    decoding="async"
+    class="absolute -inset-[8%] size-[116%] max-w-none object-cover blur-2xl opacity-90"
+  />
+  <div class="grain [--grain-size:52px] [--grain-opacity:6.5%] absolute inset-0"></div>
+</div>
